@@ -1,43 +1,27 @@
 import pygame
 from pygame.locals import *
+from Game.object.player import Player
+from Game.object.window import Window, Background
+from Game.configuration import settings
 
 pygame.init()
 
 
-def create_screen(x_width, y_width):
-    return pygame.display.set_mode((x_width, y_width))
+def run():
+    screen = Window().screen
+    background = Background(settings.IMAGE.get('background')).background
+    player = Player(settings.IMAGE.get('player'))
+    player.x_speed = 10
+    player.y_speed = 0
+    screen.blit(background, (0, 0))
+
+    while 1:
+        screen.blit(background, player.postion, player.postion)
+        player.move()
+        screen.blit(player.player, player.postion)
+        pygame.display.update()
+        pygame.time.delay(100)
 
 
-def create_player(path):
-    return pygame.image.load(path).convert()
-
-
-def set_background(path):
-    return pygame.image.load(path).convert()
-
-
-class GameObject:
-    def __init__(self, image, height, speed):
-        self.speed = speed
-        self.image = image
-        self.pos = image.get_rect().move(0, height)
-
-    def move(self):
-        self.pos.left = 0
-        self.pos = self.pos.move(0, self.speed)
-        if self.pos.right > 600:
-            self.pos.left = 0
-
-
-screen = create_screen(640, 480)
-player = create_player('../static/supermario.jpg')
-background = set_background('../static/fire_background.jpg')
-screen.blit(background, (0, 0))
-player_pos = player.get_rect().move(1, 40)
-
-while 1:
-    screen.blit(background, player_pos, player_pos)
-    player_pos = player_pos.move(1, 1)
-    screen.blit(player, player_pos)
-    pygame.display.update()
-    pygame.time.delay(100)
+if __name__ == '__main__':
+    run()
