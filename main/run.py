@@ -2,15 +2,15 @@ import pygame
 from pygame.locals import *
 from Game.object.player import Player
 from Game.object.window import Window, Background
-from Game.configuration import settings
+from Game.configuration import IMAGE
 
 pygame.init()
 
 
 def run():
     screen = Window().screen
-    background = Background(settings.IMAGE.get('background')).background
-    player = Player(settings.IMAGE.get('player'))
+    background = Background(IMAGE.get('background')).background
+    player = Player(IMAGE.get('player'))
     player.x_speed = 10
     player.y_speed = 0
     screen.blit(background, (0, 0))
