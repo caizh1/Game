@@ -5,7 +5,7 @@ import pygame
 class Operation:
     def __init__(self):
         self.event_table = {
-            'quit': pygame.QUIT
+            'quit': pygame.QUIT,
         }
 
     @property
