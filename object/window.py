@@ -1,4 +1,5 @@
 import pygame
+from Game.object.base import Image
 
 
 class Window:
@@ -29,9 +30,10 @@ class Window:
         return pygame.display.set_mode((self.width, self.height))
 
 
-class Background:
+class Background(Image):
     def __init__(self, image):
-        self.__image = pygame.image.load(image).convert()
+        super().__init__(image)
+        self.__image = self.image
 
     @property
     def background(self):

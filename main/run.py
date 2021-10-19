@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
-from Game.object.player import Player
-from Game.object.window import Window, Background
+from Game.object import Player, Window, Operation, Background
 from Game.configuration import IMAGE
 
 pygame.init()
@@ -16,6 +15,11 @@ def run():
     screen.blit(background, (0, 0))
 
     while 1:
+        """
+            responding the mouse click event in order to prevent the window gets stuck
+        """
+        operation = Operation()
+        operation.quit()
         screen.blit(background, player.postion, player.postion)
         player.move()
         screen.blit(player.player, player.postion)
