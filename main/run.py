@@ -1,3 +1,4 @@
+import sys
 import pygame
 from pygame.locals import *
 from Game.object import Player, Window, Operation, Background, Fist
@@ -16,23 +17,29 @@ def run():
     player.y_speed = 0
     allsprites = pygame.sprite.RenderPlain((player, fist))
     screen.blit(background, (0, 0))
+    pygame.display.flip()
+    clock = pygame.time.Clock()
 
     while 1:
         """
             responding the mouse click event in order to prevent the window gets stuck
         """
+        clock.tick(30)
         operation = Operation()
-        operation.quit()
         player.move()
         for event in operation.operations:
-            if event.type == operation.event_table.get('keydown') and event.key == operation.event_table.get('escape'):
+            if event.type == operation.quit:
+                pygame.quit()
+                sys.exit()
+            if event.type == operation.keydown and event.key == operation.key_escape:
                 going = False
-            elif event.type == operation.event_table.get('mouse_button_down'):
+            elif event.type == operation.mouse_button_down:
+                print("get mouse button down event")
                 if fist.punch(player):
                     print("hitted")  # punch
                 else:
                     print('miss')  # miss
-            elif event.type == operation.event_table.get('mouse_button_up'):
+            elif event.type == operation.mouse_button_up:
                 fist.unpunch()
 
         allsprites.update()

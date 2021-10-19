@@ -16,8 +16,22 @@ class Operation:
     def operations(self):
         return pygame.event.get()
 
+    @property
+    def mouse_button_down(self):
+        return self.event_table.get('mouse_button_down')
+
+    @property
+    def mouse_button_up(self):
+        return self.event_table.get('mouse_button_up')
+
+    @property
+    def keydown(self):
+        return self.event_table.get('key_down')
+
+    @property
+    def key_escape(self):
+        return self.event_table.get('key_escape')
+
+    @property
     def quit(self):
-        for operation in self.operations:
-            if operation.type == self.event_table['quit']:
-                pygame.quit()
-                sys.exit()
+        return self.event_table.get('quit')

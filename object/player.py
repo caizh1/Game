@@ -3,10 +3,11 @@ from typing import Union
 from Game.object.base import Image, Sprite
 
 
-class Player(pygame.sprite.Sprite, Image):
+class Player(Image, Sprite):
 
     def __init__(self, image):
-        super().__init__(image)
+        Image.__init__(self, image)
+        Sprite.__init__(self)
         self.player = self.image
         self.rect = self.player.get_rect().move(1, 40)
         self.__x_speed = 0
