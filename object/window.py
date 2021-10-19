@@ -4,10 +4,11 @@ from Game.object.base import Image
 
 class Window:
 
-    def __init__(self):
+    def __init__(self, title):
         self.__width = 640
         self.__height = 480
-        self.title = "The first python game!"
+
+        pygame.display.set_caption(title)
 
     @property
     def width(self):

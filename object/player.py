@@ -1,13 +1,14 @@
+import pygame
 from typing import Union
-from Game.object.base import Image
+from Game.object.base import Image, Sprite
 
 
-class Player(Image):
+class Player(pygame.sprite.Sprite, Image):
 
     def __init__(self, image):
         super().__init__(image)
         self.player = self.image
-        self.postion = self.player.get_rect().move(1, 40)
+        self.rect = self.player.get_rect().move(1, 40)
         self.__x_speed = 0
         self.__y_speed = 0
 
@@ -28,6 +29,6 @@ class Player(Image):
         self.__y_speed = speed
 
     def move(self):
-        self.postion = self.postion.move(self.__x_speed, self.__y_speed)
-        if self.postion.right > 600:
-            self.postion.left = 0
+        self.rect = self.rect.move(self.__x_speed, self.__y_speed)
+        if self.rect.right > 600:
+            self.rect.left = 0
