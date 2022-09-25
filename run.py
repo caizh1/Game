@@ -13,7 +13,11 @@ screen.blit(background, (0, 0))
 
 
 # create player
-kitty = Kitty(5, 120, 60, "./images/player_cat_1.png", screen, background, (500, 400))
+kitty_images = list()
+for index in range(0, 8):
+    image = f"./images/kitty_{index}.png"
+    kitty_images.append(image)
+kitty = Kitty(3, 90, 90, kitty_images, screen, background, (500, 400))
 kitty_group = pygame.sprite.Group()
 kitty_group.add(kitty)
 kitty_group.draw(screen)
