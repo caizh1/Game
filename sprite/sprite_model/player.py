@@ -4,6 +4,9 @@ from .base_sprite import BaseCharacter
 
 
 class Kitty(BaseCharacter):
+    def __init__(self, speed, height, width, image, screen, background, initial_position: tuple):
+        super(Kitty, self).__init__(speed, height, width, image, screen, background, initial_position)
+        self.__direction = "right"
 
     def erase(self):
         self.screen.blit(self.background, self._sprite_rect, self._sprite_rect)
@@ -14,6 +17,10 @@ class Kitty(BaseCharacter):
         :return:
         this function is to move the object of this class. Stop this object if it collides the sprite_group.
         """
+        if self.__direction != "left":
+            self._sprite_surface = pygame.transform.flip(self._sprite_surface, True, False)
+            self.__direction = "left"
+
         screen_rect = self.screen.get_rect()
         self.erase()
         if self._sprite_surface:
@@ -28,6 +35,10 @@ class Kitty(BaseCharacter):
                         self._sprite_rect.left = sprite.rect.right
 
     def move_right(self, sprite_group: pygame.sprite.Group):
+        if self.__direction != "right":
+            self._sprite_surface = pygame.transform.flip(self._sprite_surface, True, False)
+            self.__direction = "right"
+
         screen_rect = self.screen.get_rect()
         self.erase()
         if self._sprite_surface:
