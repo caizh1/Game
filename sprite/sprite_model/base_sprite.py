@@ -87,3 +87,8 @@ class BaseCharacter(BaseSprite):
 class BaseObstacle(BaseSprite):
     def __init__(self, height, width, image, screen, background, initial_position: tuple):
         super(BaseObstacle, self).__init__(height, width, image, screen, background, initial_position)
+
+
+class BaseItem(BaseSprite):
+    def __init__(self, height, width, image, screen, background, initial_position: tuple):
+        super(BaseItem, self).__init__(height, width, image, screen, background, initial_position)

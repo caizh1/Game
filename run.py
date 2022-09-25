@@ -2,6 +2,7 @@ import sys
 import pygame
 from config import cfg
 from sprite.sprite_model.player import Kitty
+from sprite.sprite_model.item import KittyCan
 from sprite.sprite_utils.obstacle import obstacles_generator
 
 
@@ -11,6 +12,11 @@ background_ = pygame.image.load("./images/background.png")
 background = pygame.transform.scale(background_, cfg.SCREEN_DEFAULT).convert_alpha()
 screen.blit(background, (0, 0))
 
+# create items
+kitty_can = KittyCan(50, 50, "./images/item_1.png", screen, background, (300, 200))
+item_group = pygame.sprite.Group()
+item_group.add(kitty_can)
+item_group.draw(screen)
 
 # create player
 kitty_images = list()
@@ -73,6 +79,10 @@ def main():
                     sys.exit()
 
         screen.blit(kitty.image, kitty.rect)
+        _ = pygame.sprite.spritecollide(kitty, item_group, True)
+        if _:
+            screen.blit(background, kitty_can.rect, kitty_can.rect)
+
         clock.tick(fps)
         pygame.display.update()
 
