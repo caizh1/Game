@@ -4,8 +4,11 @@ from .base_sprite import BaseCharacter
 
 
 class Kitty(BaseCharacter):
-    def __init__(self, speed, height, width, image: list, screen, background, initial_position: tuple):
-        super(Kitty, self).__init__(speed, height, width, image, screen, background, initial_position)
+    def __init__(
+            self, speed, height, width, image: list, screen, background,
+            initial_position: tuple, group: pygame.sprite.Group = None
+    ):
+        super(Kitty, self).__init__(speed, height, width, image, screen, background, initial_position, group)
         self._image = image
         self.__direction = "right"
         self.__last_update = pygame.time.get_ticks()

@@ -3,8 +3,11 @@ import pygame
 
 
 class BaseSprite(pygame.sprite.Sprite):
-    def __init__(self, height, width, image, screen, background, initial_position: tuple):
-        super(BaseSprite, self).__init__()
+    def __init__(
+            self, height, width, image, screen, background, initial_position: tuple,
+            *group: pygame.sprite.Group
+    ):
+        super(BaseSprite, self).__init__(*group)
         self.height = height
         self.width = width
         self._image = image
@@ -67,8 +70,10 @@ class BaseSprite(pygame.sprite.Sprite):
 
 
 class BaseCharacter(BaseSprite):
-    def __init__(self, speed, height, width, image, screen, background, initial_position: tuple):
-        super(BaseCharacter, self).__init__(height, width, image, screen, background, initial_position)
+    def __init__(
+            self, speed, height, width, image, screen, background,
+            initial_position: tuple, *group):
+        super(BaseCharacter, self).__init__(height, width, image, screen, background, initial_position, *group)
         self.speed = speed
 
     def move_left(self, sprite):
@@ -83,12 +88,21 @@ class BaseCharacter(BaseSprite):
     def move_down(self, sprite):
         pass
 
+    def check_collide_with_group(self, sprite_group: pygame.sprite.Group):
+        for sprite in sprite_group:
+            if pygame.sprite.collide_rect(self, sprite):
+                return sprite
+
 
 class BaseObstacle(BaseSprite):
-    def __init__(self, height, width, image, screen, background, initial_position: tuple):
-        super(BaseObstacle, self).__init__(height, width, image, screen, background, initial_position)
+    def __init__(
+            self, height, width, image, screen, background,
+            initial_position: tuple, *group):
+        super(BaseObstacle, self).__init__(height, width, image, screen, background, initial_position, *group)
 
 
 class BaseItem(BaseSprite):
-    def __init__(self, height, width, image, screen, background, initial_position: tuple):
-        super(BaseItem, self).__init__(height, width, image, screen, background, initial_position)
+    def __init__(
+            self, height, width, image, screen, background,
+            initial_position: tuple, *group):
+        super(BaseItem, self).__init__(height, width, image, screen, background, initial_position, *group)

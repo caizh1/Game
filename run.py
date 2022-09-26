@@ -12,10 +12,9 @@ background_ = pygame.image.load("./images/background.png")
 background = pygame.transform.scale(background_, cfg.SCREEN_DEFAULT).convert_alpha()
 screen.blit(background, (0, 0))
 
-# create items
-kitty_can = KittyCan(50, 50, "./images/item_1.png", screen, background, (300, 200))
+# create
 item_group = pygame.sprite.Group()
-item_group.add(kitty_can)
+kitty_can = KittyCan(50, 50, "./images/item_1.png", screen, background, (300, 200), item_group)
 item_group.draw(screen)
 
 # create player
@@ -23,9 +22,8 @@ kitty_images = list()
 for index in range(0, 8):
     image = f"./images/kitty_{index}.png"
     kitty_images.append(image)
-kitty = Kitty(3, 90, 90, kitty_images, screen, background, (500, 400))
 kitty_group = pygame.sprite.Group()
-kitty_group.add(kitty)
+kitty = Kitty(3, 90, 90, kitty_images, screen, background, (500, 400), kitty_group)
 kitty_group.draw(screen)
 
 
@@ -79,9 +77,9 @@ def main():
                     sys.exit()
 
         screen.blit(kitty.image, kitty.rect)
-        _ = pygame.sprite.spritecollide(kitty, item_group, True)
-        if _:
-            screen.blit(background, kitty_can.rect, kitty_can.rect)
+        item = kitty.check_collide_with_group(item_group)
+        if item:
+            item.erase()
 
         clock.tick(fps)
         pygame.display.update()
