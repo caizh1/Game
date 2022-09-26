@@ -59,7 +59,6 @@ clock = pygame.time.Clock()
 
 def main():
     while 1:
-
         # using get_pressed instead of listen pygame key down event in order to implement the smooth movement
         pressed_key = pygame.key.get_pressed()
         if pressed_key[pygame.K_LEFT]:
@@ -77,9 +76,7 @@ def main():
                     sys.exit()
 
         screen.blit(kitty.image, kitty.rect)
-        item = kitty.check_collide_with_group(item_group)
-        if item:
-            item.erase()
+        kitty.eat(item_group)
 
         clock.tick(fps)
         pygame.display.update()

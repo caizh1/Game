@@ -1,6 +1,6 @@
 import pygame
-
 from .base_sprite import BaseCharacter
+from sprite.sprite_model.item import KittyCan
 
 
 class Kitty(BaseCharacter):
@@ -8,10 +8,14 @@ class Kitty(BaseCharacter):
             self, speed, height, width, image: list, screen, background,
             initial_position: tuple, group: pygame.sprite.Group = None
     ):
+        self.health = 50
+        self.mood = 100
+        self.hungry = 100
+        self.energy = 100
+        self.__last_update = pygame.time.get_ticks()
         super(Kitty, self).__init__(speed, height, width, image, screen, background, initial_position, group)
         self._image = image
         self.__direction = "right"
-        self.__last_update = pygame.time.get_ticks()
         self.__last_position = initial_position
         self.__current_image_index = 0
 
@@ -31,6 +35,7 @@ class Kitty(BaseCharacter):
             self._sprite_rect.topleft = self.__last_position
 
     def _create(self):
+        self.__update_health()
         sprite_surface = pygame.image.load(self._image[0])
         self._sprite_surface = pygame.transform.scale(sprite_surface, (self.height, self.width)).convert_alpha()
         self._sprite_rect = self._sprite_surface.get_rect()
@@ -121,3 +126,24 @@ class Kitty(BaseCharacter):
                         self._sprite_rect.bottom = sprite.rect.top
 
         self.__last_position = self.topleft
+
+    def __update_health(self):
+        if self.health < 0:
+            self.health = 0
+
+        if self.health > 100:
+            self.health = 100
+
+        rect_position_x, rect_position_y, rect_length, rect_height = 10, 10, 100, 20
+        outline_rect = pygame.Rect(rect_position_x, rect_position_y, rect_length, rect_height)
+        pygame.draw.rect(self.screen, (255, 255, 255), outline_rect, 2)
+        fill_rect = pygame.Rect(rect_position_x, rect_position_y, self.health, rect_height)
+        pygame.draw.rect(self.screen, (255, 0, 0), fill_rect)
+
+    def eat(self, sprite_group):
+        item = self.check_collide_with_group(sprite_group)
+        if item:
+            if isinstance(item, KittyCan):
+                self.health += 30
+                item.erase()
+        self.__update_health()
