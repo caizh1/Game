@@ -44,7 +44,7 @@ def obstacles_generator(
     last_object_top_position, last_object_left_position = int(), int()
     top_, left_ = initial_position[0], initial_position[1]
     for i in range(0, number):
-        basic_obstacle = BasicObstacle(size[0], size[1], image, screen, background, (left_, top_), existed_group)
+        basic_obstacle = BasicObstacle(size[0], size[1], screen, background, image, (left_, top_), existed_group)
         if direction == "left":
             left_ = basic_obstacle.left - basic_obstacle.width
         elif direction == "right":

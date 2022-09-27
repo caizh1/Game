@@ -4,7 +4,7 @@ import pygame
 
 class BaseSprite(pygame.sprite.Sprite):
     def __init__(
-            self, height, width, image, screen, background, initial_position: tuple,
+            self, height, width, screen, background, image: str = None, initial_position: tuple = (),
             *group: pygame.sprite.Group
     ):
         super(BaseSprite, self).__init__(*group)
@@ -19,10 +19,11 @@ class BaseSprite(pygame.sprite.Sprite):
         self._create()
 
     def _create(self):
-        sprite_surface = pygame.image.load(self._image)
-        self._sprite_surface = pygame.transform.scale(sprite_surface, (self.height, self.width)).convert_alpha()
-        self._sprite_rect = self._sprite_surface.get_rect()
-        self._sprite_rect.topleft = self._initial_position
+        if self._image:
+            sprite_surface = pygame.image.load(self._image)
+            self._sprite_surface = pygame.transform.scale(sprite_surface, (self.height, self.width)).convert_alpha()
+            self._sprite_rect = self._sprite_surface.get_rect()
+            self._sprite_rect.topleft = self._initial_position
 
     @property
     def rect(self):
@@ -73,7 +74,7 @@ class BaseCharacter(BaseSprite):
     def __init__(
             self, speed, height, width, image, screen, background,
             initial_position: tuple, *group):
-        super(BaseCharacter, self).__init__(height, width, image, screen, background, initial_position, *group)
+        super(BaseCharacter, self).__init__(height, width, screen, background, image, initial_position, *group)
         self.speed = speed
 
     def move_left(self, sprite):
@@ -96,13 +97,27 @@ class BaseCharacter(BaseSprite):
 
 class BaseObstacle(BaseSprite):
     def __init__(
-            self, height, width, image, screen, background,
+            self, height, width, screen, background, image,
             initial_position: tuple, *group):
-        super(BaseObstacle, self).__init__(height, width, image, screen, background, initial_position, *group)
+        super(BaseObstacle, self).__init__(height, width, screen, background, image, initial_position, *group)
 
 
 class BaseItem(BaseSprite):
     def __init__(
-            self, height, width, image, screen, background,
+            self, height, width, screen, background, image,
             initial_position: tuple, *group):
-        super(BaseItem, self).__init__(height, width, image, screen, background, initial_position, *group)
+        super(BaseItem, self).__init__(height, width, screen, background, image, initial_position, *group)
+
+
+class BaseStatsRect(BaseSprite):
+    def __init__(
+            self, height, width, screen, background,
+            initial_position: tuple, *group):
+        super(BaseStatsRect, self).__init__(
+            height,
+            width,
+            screen,
+            background,
+            initial_position=initial_position,
+            *group
+        )

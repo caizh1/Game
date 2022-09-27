@@ -5,7 +5,7 @@ from sprite.sprite_model.player import Kitty
 from sprite.sprite_model.item import KittyCan
 from sprite.sprite_utils.obstacle import obstacles_generator
 
-
+from sprite.sprite_model.class_stats import StatsRect
 # create screen and background
 screen = pygame.display.set_mode(cfg.SCREEN_DEFAULT, pygame.RESIZABLE)
 background_ = pygame.image.load("./images/background.png")
@@ -14,7 +14,7 @@ screen.blit(background, (0, 0))
 
 # create
 item_group = pygame.sprite.Group()
-kitty_can = KittyCan(50, 50, "./images/item_1.png", screen, background, (300, 200), item_group)
+kitty_can = KittyCan(50, 50, screen, background, "./images/item_1.png", (300, 200), item_group)
 item_group.draw(screen)
 
 # create player
@@ -30,17 +30,17 @@ kitty_group.draw(screen)
 # create obstacles
 obstacle_group = pygame.sprite.Group()
 generator_object = obstacles_generator(
-    (50, 50),
+    (30, 30),
     "./images/obstacle_1.png",
     5,
     "right",
-    (100, 0),
+    (150, 0),
     screen,
     background,
     obstacle_group
 )
 generator_object = obstacles_generator(
-    (50, 50), "./images/obstacle_1.png",
+    (30, 30), "./images/obstacle_1.png",
     5,
     "down",
     generator_object.last_object_position,
@@ -75,7 +75,28 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
 
+        stat_rect_health = StatsRect(20, 102, 2, screen, background, initial_position=(10, 10))
+        stat_rect_health.draw_rect((255, 255, 255))
+        stat_rect_health.fill_rect(kitty.health, (255, 0, 0))
+
+        stat_rect_mood = StatsRect(20, 102, 2, screen, background, initial_position=(10, 30))
+        stat_rect_mood.draw_rect((255, 255, 255))
+        stat_rect_mood.fill_rect(kitty.mood, (0, 255, 0))
+
+        stat_rect_energy = StatsRect(20, 102, 2, screen, background, initial_position=(10, 50))
+        stat_rect_energy.draw_rect((255, 255, 255))
+        stat_rect_energy.fill_rect(kitty.energy, (0, 0, 0))
+
+        stat_rect_hungry = StatsRect(20, 102, 2, screen, background, initial_position=(10, 70))
+        stat_rect_hungry.draw_rect((255, 255, 255))
+        stat_rect_hungry.fill_rect(kitty.hungry, (255, 128, 0))
+
+        stat_rect_thirsty = StatsRect(20, 102, 2, screen, background, initial_position=(10, 90))
+        stat_rect_thirsty.draw_rect((255, 255, 255))
+        stat_rect_thirsty.fill_rect(kitty.thirsty, (0, 0, 255))
+
         screen.blit(kitty.image, kitty.rect)
+
         kitty.eat(item_group)
 
         clock.tick(fps)
