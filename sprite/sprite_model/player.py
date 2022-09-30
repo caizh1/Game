@@ -15,7 +15,6 @@ class Kitty(BaseCharacter):
         self.thirsty = 100
         self.__last_update = pygame.time.get_ticks()
         super(Kitty, self).__init__(speed, height, width, image, screen, background, initial_position, group)
-        self._image = image
         self.__direction = "right"
         self.__last_position = initial_position
         self.__current_image_index = 0
@@ -62,14 +61,9 @@ class Kitty(BaseCharacter):
         self.__update()
         if self._sprite_surface:
             self._sprite_rect = self._sprite_rect.move(-self.speed, 0)
-            if self._sprite_rect.left < 0:
-                self._sprite_rect.left = 0
+            self.stop_moving_out_screen()
 
-            # check if collide the sprite_group
-            for sprite in sprite_group:
-                if pygame.sprite.collide_rect(self, sprite):
-                    if self._sprite_rect.left <= sprite.rect.right:
-                        self._sprite_rect.left = sprite.rect.right
+            self.stop_across_obstacle_left(sprite_group)
         self.__last_position = self.topleft
 
     def move_right(self, sprite_group: pygame.sprite.Group):
@@ -82,14 +76,9 @@ class Kitty(BaseCharacter):
         self.__update()
         if self._sprite_surface:
             self._sprite_rect = self._sprite_rect.move(self.speed, 0)
-            if self._sprite_rect.right > screen_rect.right:
-                self._sprite_rect.right = screen_rect.right
+            self.stop_moving_out_screen()
 
-            # check if collide the sprite_group
-            for sprite in sprite_group:
-                if pygame.sprite.collide_rect(self, sprite):
-                    if self._sprite_rect.right >= sprite.rect.left:
-                        self._sprite_rect.right = sprite.rect.left
+            self.stop_across_obstacle_right(sprite_group)
 
         self.__last_position = self.topleft
 
@@ -99,14 +88,9 @@ class Kitty(BaseCharacter):
         self.__update()
         if self._sprite_surface:
             self._sprite_rect = self._sprite_rect.move(0, -self.speed)
-            if self._sprite_rect.top < 0:
-                self._sprite_rect.top = 0
+            self.stop_moving_out_screen()
 
-            # check if collide the sprite_group
-            for sprite in sprite_group:
-                if pygame.sprite.collide_rect(self, sprite):
-                    if self._sprite_rect.top <= sprite.rect.bottom:
-                        self._sprite_rect.top = sprite.rect.bottom
+            self.stop_across_obstacle_up(sprite_group)
 
         self.__last_position = self.topleft
 
@@ -116,14 +100,9 @@ class Kitty(BaseCharacter):
         self.__update()
         if self._sprite_surface:
             self._sprite_rect = self._sprite_rect.move(0, self.speed)
-            if self._sprite_rect.bottom > screen_rect.bottom:
-                self._sprite_rect.bottom = screen_rect.bottom
+            self.stop_moving_out_screen()
 
-            # check if collide the sprite_group
-            for sprite in sprite_group:
-                if pygame.sprite.collide_rect(self, sprite):
-                    if self._sprite_rect.bottom >= sprite.rect.top:
-                        self._sprite_rect.bottom = sprite.rect.top
+            self.stop_across_obstacle_down(sprite_group)
 
         self.__last_position = self.topleft
 
