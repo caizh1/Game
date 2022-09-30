@@ -7,6 +7,15 @@ class BaseSprite(pygame.sprite.Sprite):
             self, height, width, screen, background, image: str = None, initial_position: tuple = (),
             *group: pygame.sprite.Group
     ):
+        """
+        :param height:
+        :param width:
+        :param screen:
+        :param background:
+        :param image: filename
+        :param initial_position:
+        :param group:
+        """
         super(BaseSprite, self).__init__(*group)
         self.height = height
         self.width = width

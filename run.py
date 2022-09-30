@@ -5,7 +5,7 @@ from sprite.sprite_model.player import Kitty
 from sprite.sprite_model.item import KittyCan
 from sprite.sprite_utils.obstacle import obstacles_generator
 
-from sprite.sprite_model.class_stats import StatsRect
+from sprite.sprite_model.stats_rect import StatsRect
 # create screen and background
 screen = pygame.display.set_mode(cfg.SCREEN_DEFAULT, pygame.RESIZABLE)
 background_ = pygame.image.load("./images/background.png")
@@ -56,6 +56,10 @@ pygame.display.update()
 fps = 60
 clock = pygame.time.Clock()
 
+# create stat rect
+stat_rect_health = StatsRect(20, 102, 2, screen, background, initial_position=(10, 10))
+stat_rect_health.draw_rect((255, 255, 255), "./images/health_1.png", 20)
+
 
 def main():
     while 1:
@@ -75,25 +79,23 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
 
-        stat_rect_health = StatsRect(20, 102, 2, screen, background, initial_position=(10, 10))
-        stat_rect_health.draw_rect((255, 255, 255))
         stat_rect_health.fill_rect(kitty.health, (255, 0, 0))
 
-        stat_rect_mood = StatsRect(20, 102, 2, screen, background, initial_position=(10, 30))
-        stat_rect_mood.draw_rect((255, 255, 255))
-        stat_rect_mood.fill_rect(kitty.mood, (0, 255, 0))
-
-        stat_rect_energy = StatsRect(20, 102, 2, screen, background, initial_position=(10, 50))
-        stat_rect_energy.draw_rect((255, 255, 255))
-        stat_rect_energy.fill_rect(kitty.energy, (0, 0, 0))
-
-        stat_rect_hungry = StatsRect(20, 102, 2, screen, background, initial_position=(10, 70))
-        stat_rect_hungry.draw_rect((255, 255, 255))
-        stat_rect_hungry.fill_rect(kitty.hungry, (255, 128, 0))
-
-        stat_rect_thirsty = StatsRect(20, 102, 2, screen, background, initial_position=(10, 90))
-        stat_rect_thirsty.draw_rect((255, 255, 255))
-        stat_rect_thirsty.fill_rect(kitty.thirsty, (0, 0, 255))
+        # stat_rect_mood = StatsRect(20, 102, 2, screen, background, initial_position=(10, 30))
+        # stat_rect_mood.draw_rect((255, 255, 255))
+        # stat_rect_mood.fill_rect(kitty.mood, (0, 255, 0))
+        #
+        # stat_rect_energy = StatsRect(20, 102, 2, screen, background, initial_position=(10, 50))
+        # stat_rect_energy.draw_rect((255, 255, 255))
+        # stat_rect_energy.fill_rect(kitty.energy, (0, 0, 0))
+        #
+        # stat_rect_hungry = StatsRect(20, 102, 2, screen, background, initial_position=(10, 70))
+        # stat_rect_hungry.draw_rect((255, 255, 255))
+        # stat_rect_hungry.fill_rect(kitty.hungry, (255, 128, 0))
+        #
+        # stat_rect_thirsty = StatsRect(20, 102, 2, screen, background, initial_position=(10, 90))
+        # stat_rect_thirsty.draw_rect((255, 255, 255))
+        # stat_rect_thirsty.fill_rect(kitty.thirsty, (0, 0, 255))
 
         screen.blit(kitty.image, kitty.rect)
 
