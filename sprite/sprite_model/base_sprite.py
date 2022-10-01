@@ -86,11 +86,16 @@ class BaseCharacter(BaseSprite):
         super(BaseCharacter, self).__init__(height, width, screen, background, image, initial_position, *group)
         self.speed = speed
 
+    def erase(self):
+        self.screen.blit(self.background, self._sprite_rect, self._sprite_rect)
+
     def stop_across_obstacle_left(self, sprite_group):
         for sprite in sprite_group:
             if pygame.sprite.collide_rect(self, sprite):
                 if self._sprite_rect.left <= sprite.rect.right:
                     self._sprite_rect.left = sprite.rect.right
+                    return True
+        return
 
     def stop_across_obstacle_right(self, sprite_group):
         # check if collide the sprite_group
@@ -98,6 +103,8 @@ class BaseCharacter(BaseSprite):
             if pygame.sprite.collide_rect(self, sprite):
                 if self._sprite_rect.right >= sprite.rect.left:
                     self._sprite_rect.right = sprite.rect.left
+                    return True
+        return
 
     def stop_across_obstacle_up(self, sprite_group):
         # check if collide the sprite_group
@@ -105,6 +112,9 @@ class BaseCharacter(BaseSprite):
             if pygame.sprite.collide_rect(self, sprite):
                 if self._sprite_rect.top <= sprite.rect.bottom:
                     self._sprite_rect.top = sprite.rect.bottom
+                    return True
+
+        return
 
     def stop_across_obstacle_down(self, sprite_group):
         # check if collide the sprite_group
@@ -112,6 +122,8 @@ class BaseCharacter(BaseSprite):
             if pygame.sprite.collide_rect(self, sprite):
                 if self._sprite_rect.bottom >= sprite.rect.top:
                     self._sprite_rect.bottom = sprite.rect.top
+                    return True
+        return
 
     def check_collide_with_group(self, sprite_group: pygame.sprite.Group):
         for sprite in sprite_group:
@@ -122,14 +134,20 @@ class BaseCharacter(BaseSprite):
 
     def stop_moving_out_screen(self):
         screen_rect = self.screen.get_rect()
+        status = False
         if self._sprite_rect.left < 0:
             self._sprite_rect.left = 0
-        if self._sprite_rect.right > screen_rect.right:
+            status = True
+        elif self._sprite_rect.right > screen_rect.right:
             self._sprite_rect.right = screen_rect.right
-        if self._sprite_rect.top < 0:
+            status = True
+        elif self._sprite_rect.top < 0:
             self._sprite_rect.top = 0
-        if self._sprite_rect.bottom > screen_rect.bottom:
+            status = True
+        elif self._sprite_rect.bottom > screen_rect.bottom:
             self._sprite_rect.bottom = screen_rect.bottom
+            status = True
+        return status
 
 
 class BaseObstacle(BaseSprite):

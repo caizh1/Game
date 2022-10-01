@@ -20,6 +20,7 @@ class Kitty(BaseCharacter):
         self.__current_image_index = 0
 
     def __update(self):
+        # update pictures when the character is moving
         delay = 100
         now = pygame.time.get_ticks()
         if now > self.__last_update + delay:
@@ -40,9 +41,6 @@ class Kitty(BaseCharacter):
         self._sprite_rect = self._sprite_surface.get_rect()
         self._sprite_rect.topleft = self._initial_position
         self.__last_position = self.topleft
-
-    def erase(self):
-        self.screen.blit(self.background, self._sprite_rect, self._sprite_rect)
 
     def move_left(self, sprite_group: pygame.sprite.Group):
         """

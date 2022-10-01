@@ -3,7 +3,9 @@ import pygame
 from config import cfg
 from sprite.sprite_model.player import Kitty
 from sprite.sprite_model.item import KittyCan
+from sprite.sprite_model.monster import BasicMonster
 from sprite.sprite_utils.obstacle import obstacles_generator
+
 
 from sprite.sprite_model.stats_rect import StatsRect
 # create screen and background
@@ -50,6 +52,10 @@ generator_object = obstacles_generator(
 
 obstacle_group.draw(screen)
 
+# create monster
+monster_group = pygame.sprite.Group()
+basic_monster = BasicMonster(5, 80, 80, "./images/monster_1.png", screen, background, (200, 200), monster_group)
+monster_group.draw(screen)
 
 # update screen and set frame per sec
 pygame.display.update()
@@ -81,24 +87,9 @@ def main():
 
         stat_rect_health.fill_rect(kitty.health, (255, 0, 0))
 
-        # stat_rect_mood = StatsRect(20, 102, 2, screen, background, initial_position=(10, 30))
-        # stat_rect_mood.draw_rect((255, 255, 255))
-        # stat_rect_mood.fill_rect(kitty.mood, (0, 255, 0))
-        #
-        # stat_rect_energy = StatsRect(20, 102, 2, screen, background, initial_position=(10, 50))
-        # stat_rect_energy.draw_rect((255, 255, 255))
-        # stat_rect_energy.fill_rect(kitty.energy, (0, 0, 0))
-        #
-        # stat_rect_hungry = StatsRect(20, 102, 2, screen, background, initial_position=(10, 70))
-        # stat_rect_hungry.draw_rect((255, 255, 255))
-        # stat_rect_hungry.fill_rect(kitty.hungry, (255, 128, 0))
-        #
-        # stat_rect_thirsty = StatsRect(20, 102, 2, screen, background, initial_position=(10, 90))
-        # stat_rect_thirsty.draw_rect((255, 255, 255))
-        # stat_rect_thirsty.fill_rect(kitty.thirsty, (0, 0, 255))
-
+        basic_monster.random_moving(obstacle_group)
         screen.blit(kitty.image, kitty.rect)
-
+        screen.blit(basic_monster.image, basic_monster.rect)
         kitty.eat(item_group)
 
         clock.tick(fps)
