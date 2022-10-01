@@ -54,7 +54,7 @@ obstacle_group.draw(screen)
 
 # create monster
 monster_group = pygame.sprite.Group()
-basic_monster = BasicMonster(5, 80, 80, "./images/monster_1.png", screen, background, (200, 200), monster_group)
+basic_monster = BasicMonster(2, 80, 80, "./images/monster_1.png", screen, background, (200, 200), monster_group)
 monster_group.draw(screen)
 
 # update screen and set frame per sec
@@ -84,7 +84,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     sys.exit()
-
+        stat_rect_health.draw_rect((255, 255, 255), "./images/health_1.png", 20)
         stat_rect_health.fill_rect(kitty.health, (255, 0, 0))
 
         basic_monster.random_moving(obstacle_group)
